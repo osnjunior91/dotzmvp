@@ -4,11 +4,8 @@ using System.Text;
 
 namespace DotzMVP.Lib.Infrastructure.Data.Model
 {
-    public class User : ModelBase
+    public class User : Person
     {
-        public string Email { get; set; }
-        public string Name { get; set; }
-        public string Password { get; set; }
-        public List<Address> Adresses { get;set;}
+        
     }
 }
