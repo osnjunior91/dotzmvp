@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -33,8 +34,10 @@ namespace DotzMVP.Controllers
         [HttpGet]
         public async Task<IActionResult> Accessible()
         {
+            List<Expression<Func<Product, object>>> includes = new List<Expression<Func<Product, object>>>();
+            includes.Add(x => x.Customer);
             Expression<Func<Product, bool>> filter = x => x.IsDeleted == false;
-            var response = await _productService.GetByFilterAsync(filter);
+            var response = await _productService.GetByFilterAsync(filter, includes  );
             return Ok(response);
         }
     }

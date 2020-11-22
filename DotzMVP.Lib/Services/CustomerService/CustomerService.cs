@@ -19,15 +19,9 @@ namespace DotzMVP.Lib.Services.CustomerService
         {
             return await _customerRepository.CreateAsync(item);
         }
-
-        public Task<List<Customer>> GetByFilterAsync(List<Expression<Func<Customer, bool>>> filter)
+        public async Task<List<Customer>> GetByFilterAsync(Expression<Func<Customer, bool>> filter, List<Expression<Func<Customer, object>>> including = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Customer>> GetByFilterAsync(Expression<Func<Customer, bool>> filter)
-        {
-            throw new NotImplementedException();
+            return await _customerRepository.GetByFilterAsync(filter, including);
         }
 
         public async Task<Customer> GetByIdAsync(Guid id, List<Expression<Func<Customer, object>>> including = null)

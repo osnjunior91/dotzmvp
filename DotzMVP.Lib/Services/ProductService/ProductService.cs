@@ -20,9 +20,9 @@ namespace DotzMVP.Lib.Services.ProductService
             return await _productRepository.CreateAsync(item);
         }
 
-        public async Task<List<Product>> GetByFilterAsync(Expression<Func<Product, bool>> filter)
+        public async Task<List<Product>> GetByFilterAsync(Expression<Func<Product, bool>> filter, List<Expression<Func<Product, object>>> including = null)
         {
-            return await _productRepository.GetByFilterAsync(filter);
+            return await _productRepository.GetByFilterAsync(filter, including);
         }
 
         public async Task<Product> GetByIdAsync(Guid id, List<Expression<Func<Product, object>>> including = null)
