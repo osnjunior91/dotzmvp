@@ -16,6 +16,10 @@ namespace DotzMVP.Infrastructure.Mapping
             #region Customer
             CreateMap<CustomerCreateRequest, Customer>();
             #endregion
+
+            #region Address
+            CreateMap<AddressUserRequest, Address>();
+            #endregion
         }
     }
 }

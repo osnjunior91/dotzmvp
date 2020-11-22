@@ -20,17 +20,21 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
 
         public async Task<T> CreateAsync(T item)
         {
-            try
-            {
-                dataset.Add(item);
-                await _dataContext.SaveChangesAsync();
-                return item;
-            }
-            catch (Exception)
-            {
+            dataset.Add(item);
+            await _dataContext.SaveChangesAsync();
+            return item;
+        }
 
-                throw;
-            }
+        public async Task<T> GetByIdAsync(Guid id)
+        {
+            return await dataset.SingleOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+        public async Task<T> UpdateAsync(T item)
+        {
+            dataset.Update(item);
+            await _dataContext.SaveChangesAsync();
+            return item;
         }
     }
 }

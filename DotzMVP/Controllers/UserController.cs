@@ -31,5 +31,18 @@ namespace DotzMVP.Controllers
             return Ok(response);
         }
 
+        [Route("{id}/address")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterAddress(Guid id, [FromBody] AddressUserRequest addressRequest)
+        {
+            var address = _mapper.Map<Address>(addressRequest);
+            var response = await _userService.CreateAsync(new User()
+            {
+                Id = id,
+                Address = address
+            });
+            return Ok(response);
+        }
+
     }
 }

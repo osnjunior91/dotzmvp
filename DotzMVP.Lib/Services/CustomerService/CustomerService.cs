@@ -18,5 +18,15 @@ namespace DotzMVP.Lib.Services.CustomerService
         {
             return await _customerRepository.CreateAsync(item);
         }
+
+        public async Task<Customer> GetByIdAsync(Guid id)
+        {
+            return await _customerRepository.GetByIdAsync(id);
+        }
+
+        public Task<Customer> UpdateAsync(Customer item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

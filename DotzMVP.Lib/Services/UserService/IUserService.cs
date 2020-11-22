@@ -8,6 +8,6 @@ namespace DotzMVP.Lib.Services.UserService
 {
     public interface IUserService: IService<User>
     {
-        
+        Task<User> UpdateAddressAsync(User user);
     }
 }
