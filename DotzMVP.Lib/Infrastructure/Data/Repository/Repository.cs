@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DotzMVP.Lib.Infrastructure.Data.Repository
@@ -25,9 +26,16 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
             return item;
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id, List<Expression<Func<T, object>>> including = null)
         {
-            return await dataset.SingleOrDefaultAsync(x => x.Id.Equals(id));
+            var query = dataset.AsQueryable();
+            if (including != null)
+                including.ForEach(include =>
+                {
+                    if (include != null)
+                        query = query.Include(include);
+                });
+            return await query.SingleOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public async Task<T> UpdateAsync(T item)

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotzMVP.Lib.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201122121920_Initial")]
+    [Migration("20201122150025_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,7 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<string>("Complement")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -54,8 +51,8 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<string>("Neighborhood")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
@@ -77,7 +74,7 @@ namespace DotzMVP.Lib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -114,7 +111,7 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<Guid?>("ChangeRegisterId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -150,7 +147,7 @@ namespace DotzMVP.Lib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -191,11 +188,14 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<Guid?>("AddressID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CustomerID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -219,9 +219,14 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TotalScore")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressID");
+
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Person");
 
@@ -234,7 +239,7 @@ namespace DotzMVP.Lib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -277,7 +282,7 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
@@ -346,7 +351,13 @@ namespace DotzMVP.Lib.Migrations
                         .WithMany()
                         .HasForeignKey("AddressID");
 
+                    b.HasOne("DotzMVP.Lib.Infrastructure.Data.Model.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID");
+
                     b.Navigation("Address");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("DotzMVP.Lib.Infrastructure.Data.Model.Product", b =>

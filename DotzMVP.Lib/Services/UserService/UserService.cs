@@ -3,6 +3,7 @@ using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,14 +21,16 @@ namespace DotzMVP.Lib.Services.UserService
             return await _userRepository.CreateAsync(user);
         }
 
-        public async Task<User> GetByIdAsync(Guid id)
+        public async Task<User> GetByIdAsync(Guid id, List<Expression<Func<User, object>>> including = null)
         {
-            return await _userRepository.GetByIdAsync(id);
+            return await _userRepository.GetByIdAsync(id, including);
         }
 
         public async Task<User> UpdateAddressAsync(User user)
         {
-            var userData = await GetByIdAsync(user.Id);
+            List<Expression<Func<User, object>>> includes = new List<Expression<Func<User, object>>>();
+            includes.Add(x => x.Address);
+            var userData = await GetByIdAsync(user.Id, includes);
 
             if (userData == null)
                 throw new NotFoundException("User Not Found");

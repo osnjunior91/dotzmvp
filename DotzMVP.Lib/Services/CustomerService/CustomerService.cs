@@ -2,6 +2,7 @@
 using DotzMVP.Lib.Infrastructure.Data.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,9 +20,9 @@ namespace DotzMVP.Lib.Services.CustomerService
             return await _customerRepository.CreateAsync(item);
         }
 
-        public async Task<Customer> GetByIdAsync(Guid id)
+        public async Task<Customer> GetByIdAsync(Guid id, List<Expression<Func<Customer, object>>> including = null)
         {
-            return await _customerRepository.GetByIdAsync(id);
+            return await _customerRepository.GetByIdAsync(id, including);
         }
 
         public Task<Customer> UpdateAsync(Customer item)
