@@ -27,8 +27,8 @@ namespace DotzMVP.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CustomerCreateRequest customerRequest)
         {
-            var user = _mapper.Map<Customer>(customerRequest);
-            var response = await _customerService.CreateAsync(user);
+            var customer = _mapper.Map<Customer>(customerRequest);
+            var response = await _customerService.CreateAsync(customer);
             return Ok(response);
         }
     }

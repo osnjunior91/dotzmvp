@@ -26,6 +26,11 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
             return item;
         }
 
+        public async Task<List<T>> GetByFilterAsync(Expression<Func<T, bool>> filter)
+        {
+            return await dataset.Where(filter).ToListAsync();
+        }
+
         public async Task<T> GetByIdAsync(Guid id, List<Expression<Func<T, object>>> including = null)
         {
             var query = dataset.AsQueryable();

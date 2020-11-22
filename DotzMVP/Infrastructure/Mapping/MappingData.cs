@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Model.Customer;
+using DotzMVP.Model.Product;
 using DotzMVP.Model.User;
 
 namespace DotzMVP.Infrastructure.Mapping
@@ -19,6 +20,10 @@ namespace DotzMVP.Infrastructure.Mapping
 
             #region Address
             CreateMap<AddressUserRequest, Address>();
+            #endregion
+
+            #region Product
+            CreateMap<CreateProductRequest, Product>();
             #endregion
         }
     }
