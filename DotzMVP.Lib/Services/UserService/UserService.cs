@@ -1,6 +1,7 @@
 ﻿using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.Services.ScoreService;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -12,9 +13,11 @@ namespace DotzMVP.Lib.Services.UserService
     public class UserService : IUserService
     {
         private readonly IRepository<User> _userRepository;
-        public UserService(IRepository<User> userRepository)
+        private readonly IScoreService _scoreService;
+        public UserService(IRepository<User> userRepository, IScoreService scoreService)
         {
             _userRepository = userRepository;
+            _scoreService = scoreService;
         }
         public async Task<User> CreateAsync(User user)
         {
@@ -31,10 +34,33 @@ namespace DotzMVP.Lib.Services.UserService
             return await _userRepository.GetByIdAsync(id, including);
         }
 
+        public async Task<Score> RegisterScoreUserAsync(Score score)
+        {
+            try
+            {
+                await _userRepository.BeginTransactionAsync();
+                var userData = await GetByIdAsync(score.PersonID, null);
+                if (userData == null)
+                    throw new NotFoundException("User Not Found");
+                userData.TotalScore += score.Amount;
+                var user = await _userRepository.UpdateAsync(userData);
+                score = await _scoreService.CreateAsync(score);
+                await _userRepository.CommitTransactionAsync();
+                return score;
+            }
+            catch (Exception)
+            {
+                await _userRepository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+
         public async Task<User> UpdateAddressAsync(User user)
         {
-            List<Expression<Func<User, object>>> includes = new List<Expression<Func<User, object>>>();
-            includes.Add(x => x.Address);
+            List<Expression<Func<User, object>>> includes = new List<Expression<Func<User, object>>>() 
+            {
+                x => x.Address
+            };
             var userData = await GetByIdAsync(user.Id, includes);
 
             if (userData == null)

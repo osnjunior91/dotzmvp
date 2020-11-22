@@ -19,6 +19,16 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
             dataset = dataContext.Set<T>();
         }
 
+        public async Task BeginTransactionAsync()
+        {
+            await _dataContext.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            await _dataContext.Database.CommitTransactionAsync();
+        }
+
         public async Task<T> CreateAsync(T item)
         {
             dataset.Add(item);
@@ -48,6 +58,11 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
                         query = query.Include(include);
                 });
             return await query.SingleOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            await _dataContext.Database.RollbackTransactionAsync();
         }
 
         public async Task<T> UpdateAsync(T item)

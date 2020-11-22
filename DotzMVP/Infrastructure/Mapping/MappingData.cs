@@ -25,6 +25,10 @@ namespace DotzMVP.Infrastructure.Mapping
             #region Product
             CreateMap<CreateProductRequest, Product>();
             #endregion
+
+            #region Score
+            CreateMap<UserRegisterScoreRequest, Score>();
+            #endregion
         }
     }
 }

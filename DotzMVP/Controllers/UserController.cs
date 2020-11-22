@@ -41,7 +41,17 @@ namespace DotzMVP.Controllers
                 Id = id,
                 Address = address
             });
-            return Ok(response);
+            return Ok(response); 
+        
+        }
+
+        [Route("{id}/score/register")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterScore(Guid id, [FromBody] UserRegisterScoreRequest registerScore)
+        {
+            var score = _mapper.Map<Score>(registerScore);
+            score.PersonID = id;
+            return Ok();
         }
 
     }

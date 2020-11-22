@@ -13,5 +13,8 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
         Task<T> GetByIdAsync(Guid id, List<Expression<Func<T, object>>> including = null);
         Task<T> UpdateAsync(T item);
         Task<List<T>> GetByFilterAsync(Expression<Func<T, bool>> filter, List<Expression<Func<T, object>>> including = null);
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+        Task RollbackTransactionAsync();
     }
 }
