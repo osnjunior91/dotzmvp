@@ -1,4 +1,8 @@
+using AutoMapper;
 using DotzMVP.Lib.Infrastructure.Data.Context;
+using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.Services;
+using DotzMVP.Lib.Services.UserServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +25,10 @@ namespace DotzMVP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")));
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); 
+            services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddSwaggerGen();
             services.AddControllers();
         }
 
@@ -31,7 +39,11 @@ namespace DotzMVP
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DotzMVP API V1");
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();

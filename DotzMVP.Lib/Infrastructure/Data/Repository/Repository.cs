@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DotzMVP.Lib.Infrastructure.Data.Repository
 {
@@ -15,6 +16,21 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
         {
             _dataContext = dataContext;
             dataset = dataContext.Set<T>();
+        }
+
+        public async Task<T> CreateAsync(T item)
+        {
+            try
+            {
+                dataset.Add(item);
+                await _dataContext.SaveChangesAsync();
+                return item;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
