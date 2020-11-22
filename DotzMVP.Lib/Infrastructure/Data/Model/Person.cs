@@ -9,8 +9,10 @@ namespace DotzMVP.Lib.Infrastructure.Data.Model
         public string Email { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public Guid AddressID { get; set; }
+        public Guid? AddressID { get; set; }
         public Address Address { get; set; }
+        public Guid? CustomerID { get; set; }
+        public Customer Customer { get; set; }
         public List<Score> Scores { get; set; }
     }
 }

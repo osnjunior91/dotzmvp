@@ -1,10 +1,13 @@
-﻿using System;
+﻿using DotzMVP.Lib.Infrastructure.Data.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DotzMVP.Lib.Services
 {
-    public interface IService
+    public interface IService<T> where T : ModelBase
     {
+        Task<T> CreateAsync(T item);
     }
 }

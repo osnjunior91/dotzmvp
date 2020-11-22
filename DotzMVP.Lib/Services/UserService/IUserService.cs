@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotzMVP.Lib.Services.UserServices
+namespace DotzMVP.Lib.Services.UserService
 {
-    public interface IUserService : IService
+    public interface IUserService: IService<User>
     {
-        Task<User> CreateAsync(User user);
+        
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotzMVP.Lib.Infrastructure.Data.Model;
-using DotzMVP.Lib.Services.UserServices;
+using DotzMVP.Lib.Services.UserService;
 using DotzMVP.Model.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace DotzMVP.Controllers
         }
         [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserRequest userRequest)
+        public async Task<IActionResult> Create([FromBody] UserCreateRequest userRequest)
         {
             var user = _mapper.Map<User>(userRequest);
             var response = await _userService.CreateAsync(user);

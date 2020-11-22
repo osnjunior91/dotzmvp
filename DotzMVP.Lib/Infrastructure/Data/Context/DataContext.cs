@@ -1,5 +1,9 @@
 ﻿using DotzMVP.Lib.Infrastructure.Data.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DotzMVP.Lib.Infrastructure.Data.Context
 {
@@ -13,5 +17,24 @@ namespace DotzMVP.Lib.Infrastructure.Data.Context
         public DbSet<User> Users { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            DateTime saveTime = DateTime.Now;
+            foreach (var entry in this.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
+            {
+                if (entry.Property("CreatedAt")?.CurrentValue == null)
+                {
+                    entry.Property("CreatedAt").CurrentValue = saveTime;
+                    entry.Property("ModifiedAt").CurrentValue = saveTime;
+                }
+                else
+                {
+                    entry.Property("ModifiedAt").CurrentValue = saveTime;
+                }
+            }
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

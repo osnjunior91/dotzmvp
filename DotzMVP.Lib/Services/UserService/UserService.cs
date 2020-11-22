@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotzMVP.Lib.Services.UserServices
+namespace DotzMVP.Lib.Services.UserService
 {
-    public class UserService : Service, IUserService
+    public class UserService : IUserService
     {
         private readonly IRepository<User> _userRepository;
         public UserService(IRepository<User> userRepository)

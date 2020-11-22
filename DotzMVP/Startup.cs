@@ -1,8 +1,9 @@
 using AutoMapper;
 using DotzMVP.Lib.Infrastructure.Data.Context;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.InversionOfControl;
 using DotzMVP.Lib.Services;
-using DotzMVP.Lib.Services.UserServices;
+using DotzMVP.Lib.Services.UserService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +27,8 @@ namespace DotzMVP
         {
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionString")));
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); 
-            services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddServiceDependency();
             services.AddSwaggerGen();
             services.AddControllers();
         }

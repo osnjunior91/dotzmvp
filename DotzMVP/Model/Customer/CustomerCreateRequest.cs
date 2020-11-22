@@ -7,5 +7,9 @@ namespace DotzMVP.Model.Customer
 {
     public class CustomerCreateRequest
     {
+        public string RegistrationNumber { get; set; }
+        public string FantasyName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
     }
 }
