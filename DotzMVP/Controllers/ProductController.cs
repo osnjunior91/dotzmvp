@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.ProductService;
 using DotzMVP.Model.Product;
@@ -26,9 +27,24 @@ namespace DotzMVP.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductRequest productRequest)
         {
-            var product = _mapper.Map<Product>(productRequest);
-            var response = await _productService.CreateAsync(product);
-            return Ok(response);
+            try
+            {
+                var product = _mapper.Map<Product>(productRequest);
+                var response = await _productService.CreateAsync(product);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [Route("list/accessible")]
         [HttpGet]
@@ -39,7 +55,7 @@ namespace DotzMVP.Controllers
                 x => x.Customer
             };
             Expression<Func<Product, bool>> filter = x => x.IsDeleted == false;
-            var response = await _productService.GetByFilterAsync(filter, includes  );
+            var response = await _productService.GetByFilterAsync(filter, includes);
             return Ok(response);
         }
     }

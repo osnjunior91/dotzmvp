@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.CustomerService;
 using DotzMVP.Model.Customer;
@@ -27,9 +28,25 @@ namespace DotzMVP.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CustomerCreateRequest customerRequest)
         {
-            var customer = _mapper.Map<Customer>(customerRequest);
-            var response = await _customerService.CreateAsync(customer);
-            return Ok(response);
+            try
+            {
+                var customer = _mapper.Map<Customer>(customerRequest);
+                var response = await _customerService.CreateAsync(customer);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

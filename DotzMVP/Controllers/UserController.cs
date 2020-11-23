@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.UserService;
 using DotzMVP.Model.User;
@@ -26,33 +27,74 @@ namespace DotzMVP.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserCreateRequest userRequest)
         {
-            var user = _mapper.Map<User>(userRequest);
-            var response = await _userService.CreateAsync(user);
-            return Ok(response);
+            try
+            {
+                var user = _mapper.Map<User>(userRequest);
+                var response = await _userService.CreateAsync(user);
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("{id}/address")]
         [HttpPost]
         public async Task<IActionResult> RegisterAddress(Guid id, [FromBody] AddressUserRequest addressRequest)
         {
-            var address = _mapper.Map<Address>(addressRequest);
-            var response = await _userService.UpdateAddressAsync(new User()
+            try
             {
-                Id = id,
-                Address = address
-            });
-            return Ok(response); 
-        
+                var address = _mapper.Map<Address>(addressRequest);
+                var response = await _userService.UpdateAddressAsync(new User()
+                {
+                    Id = id,
+                    Address = address
+                });
+                return Ok(response);
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("{id}/score/register")]
         [HttpPost]
         public async Task<IActionResult> RegisterScore(Guid id, [FromBody] UserRegisterScoreRequest registerScore)
         {
-            var score = _mapper.Map<Score>(registerScore);
-            score.PersonID = id;
-            var scoreResponse = await _userService.RegisterScoreUserAsync(score);
-            return Ok(scoreResponse);
+            try
+            {
+                var score = _mapper.Map<Score>(registerScore);
+                score.PersonID = id;
+                var scoreResponse = await _userService.RegisterScoreUserAsync(score);
+                return Ok(scoreResponse);
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
     }

@@ -33,6 +33,10 @@ namespace DotzMVP.Controllers
                 var changeResult = await _changeService.CreateAsync(change);
                 return Ok(changeResult);
             }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);

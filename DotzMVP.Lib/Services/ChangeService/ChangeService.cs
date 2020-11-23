@@ -52,9 +52,9 @@ namespace DotzMVP.Lib.Services.ChangeService
             return await _changeRepository.GetByIdAsync(id, including);
         }
 
-        public Task<ChangeRegister> UpdateAsync(ChangeRegister item)
+        public async Task<ChangeRegister> UpdateAsync(ChangeRegister item)
         {
-            throw new NotImplementedException();
+            return await _changeRepository.UpdateAsync(item);
         }
         private async Task ValidateChangeAsync(ChangeRegister item)
         {
