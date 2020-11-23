@@ -58,7 +58,7 @@ namespace DotzMVP.Lib.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalScore = table.Column<int>(type: "int", nullable: false),
+                    TotalScore = table.Column<double>(type: "float", nullable: false),
                     AddressID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CustomerID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),

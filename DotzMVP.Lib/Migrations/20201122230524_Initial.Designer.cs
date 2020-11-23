@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotzMVP.Lib.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201122150025_Initial")]
+    [Migration("20201122230524_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,8 +219,8 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalScore")
-                        .HasColumnType("int");
+                    b.Property<double>("TotalScore")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

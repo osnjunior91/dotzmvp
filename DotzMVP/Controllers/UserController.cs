@@ -51,7 +51,8 @@ namespace DotzMVP.Controllers
         {
             var score = _mapper.Map<Score>(registerScore);
             score.PersonID = id;
-            return Ok();
+            var scoreResponse = await _userService.RegisterScoreUserAsync(score);
+            return Ok(scoreResponse);
         }
 
     }

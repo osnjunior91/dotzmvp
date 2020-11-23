@@ -217,8 +217,8 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalScore")
-                        .HasColumnType("int");
+                    b.Property<double>("TotalScore")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
