@@ -15,6 +15,7 @@ namespace DotzMVP.Lib.Infrastructure.Data.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Score> Scores { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserAdmin> UsersAdmin { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
 

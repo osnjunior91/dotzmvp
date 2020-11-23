@@ -43,11 +43,11 @@ namespace DotzMVP.Lib.Services.UserAdminService
         }
         private async Task ValidateUserAdminAsync(UserAdmin item)
         {
-            Expression<Func<UserAdmin, bool>> filter = x => x.IsDeleted == false && x.Email.Equals(item.Email, StringComparison.InvariantCultureIgnoreCase);
+            Expression<Func<UserAdmin, bool>> filter = x => x.IsDeleted == false && x.Email.Equals(item.Email);
             var user = await GetByFilterAsync(filter);
-            if (user != null)
+            if (user.Count > 0)
                 throw new ArgumentException("Email existis in database.");
-            var validator = new UserAdminValidator();
+            var validator = new PersonValidator();
             validator.ValidateAndThrow(item);
         }
     }

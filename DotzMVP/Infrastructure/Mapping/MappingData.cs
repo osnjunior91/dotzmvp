@@ -19,6 +19,11 @@ namespace DotzMVP.Infrastructure.Mapping
             CreateMap<User, UserCreateResponse>();
             #endregion
 
+            #region UserAdmin
+            CreateMap<UserCreateRequest, UserAdmin>();
+            CreateMap<UserAdmin, UserCreateResponse>();
+            #endregion
+
             #region Customer
             CreateMap<CustomerCreateRequest, Customer>();
             CreateMap<Customer, CustomerCreateResponse>();

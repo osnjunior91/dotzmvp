@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.ChangeService;
+using DotzMVP.Lib.Services.UserAdminService;
 using DotzMVP.Model.Change;
 using DotzMVP.Model.User;
 using Microsoft.AspNetCore.Http;
@@ -20,11 +21,13 @@ namespace DotzMVP.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IChangeService _changeService;
+        private readonly IUserAdminService _userService;
 
-        public UserAdminController(IMapper mapper, IChangeService changeService)
+        public UserAdminController(IMapper mapper, IChangeService changeService, IUserAdminService userService)
         {
             _mapper = mapper;
             _changeService = changeService;
+            _userService = userService;
         }
         [Route("create")]
         [HttpPost]
@@ -32,7 +35,9 @@ namespace DotzMVP.Controllers
         {
             try
             {
-                return Ok();
+                var user = _mapper.Map<UserAdmin>(userRequest);
+                var response = _mapper.Map<UserCreateResponse>(await _userService.CreateAsync(user));
+                return Ok(response);
             }
             catch (ValidationException ex)
             {

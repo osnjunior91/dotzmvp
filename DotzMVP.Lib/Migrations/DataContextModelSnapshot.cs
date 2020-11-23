@@ -195,9 +195,6 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CustomerID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -226,8 +223,6 @@ namespace DotzMVP.Lib.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressID");
-
-                    b.HasIndex("CustomerID");
 
                     b.ToTable("Person");
 
@@ -320,6 +315,13 @@ namespace DotzMVP.Lib.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
+            modelBuilder.Entity("DotzMVP.Lib.Infrastructure.Data.Model.UserAdmin", b =>
+                {
+                    b.HasBaseType("DotzMVP.Lib.Infrastructure.Data.Model.Person");
+
+                    b.HasDiscriminator().HasValue("UserAdmin");
+                });
+
             modelBuilder.Entity("DotzMVP.Lib.Infrastructure.Data.Model.ChangeRegister", b =>
                 {
                     b.HasOne("DotzMVP.Lib.Infrastructure.Data.Model.Person", "Person")
@@ -352,13 +354,7 @@ namespace DotzMVP.Lib.Migrations
                         .WithMany()
                         .HasForeignKey("AddressID");
 
-                    b.HasOne("DotzMVP.Lib.Infrastructure.Data.Model.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerID");
-
                     b.Navigation("Address");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("DotzMVP.Lib.Infrastructure.Data.Model.Product", b =>

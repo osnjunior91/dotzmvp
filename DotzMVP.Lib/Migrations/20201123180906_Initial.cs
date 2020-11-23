@@ -60,7 +60,6 @@ namespace DotzMVP.Lib.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TotalScore = table.Column<double>(type: "float", nullable: false),
                     AddressID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CustomerID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -75,12 +74,6 @@ namespace DotzMVP.Lib.Migrations
                         name: "FK_Person_Adresses_AddressID",
                         column: x => x.AddressID,
                         principalTable: "Adresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Person_Customers_CustomerID",
-                        column: x => x.CustomerID,
-                        principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -219,11 +212,6 @@ namespace DotzMVP.Lib.Migrations
                 column: "AddressID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_CustomerID",
-                table: "Person",
-                column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_CustomerID",
                 table: "Products",
                 column: "CustomerID");
@@ -257,10 +245,10 @@ namespace DotzMVP.Lib.Migrations
                 name: "Person");
 
             migrationBuilder.DropTable(
-                name: "Adresses");
+                name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Adresses");
         }
     }
 }
