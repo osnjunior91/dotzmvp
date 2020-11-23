@@ -20,19 +20,19 @@ namespace DotzMVP.Lib.Services.ScoreService
             return await _scoreRepository.CreateAsync(item);
         }
 
-        public Task<List<Score>> GetByFilterAsync(Expression<Func<Score, bool>> filter, List<Expression<Func<Score, object>>> including = null)
+        public async Task<List<Score>> GetByFilterAsync(Expression<Func<Score, bool>> filter, List<Expression<Func<Score, object>>> including = null)
         {
-            throw new NotImplementedException();
+            return await _scoreRepository.GetByFilterAsync(filter, including);
         }
 
-        public Task<Score> GetByIdAsync(Guid id, List<Expression<Func<Score, object>>> including = null)
+        public async Task<Score> GetByIdAsync(Guid id, List<Expression<Func<Score, object>>> including = null)
         {
-            throw new NotImplementedException();
+            return await _scoreRepository.GetByIdAsync(id, including);
         }
 
-        public Task<Score> UpdateAsync(Score item)
+        public async Task<Score> UpdateAsync(Score item)
         {
-            throw new NotImplementedException();
+            return await _scoreRepository.UpdateAsync(item);
         }
     }
 }

@@ -24,9 +24,9 @@ namespace DotzMVP.Lib.Services.UserService
             return await _userRepository.CreateAsync(user);
         }
 
-        public Task<List<User>> GetByFilterAsync(Expression<Func<User, bool>> filter, List<Expression<Func<User, object>>> including = null)
+        public async Task<List<User>> GetByFilterAsync(Expression<Func<User, bool>> filter, List<Expression<Func<User, object>>> including = null)
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetByFilterAsync(filter, including);
         }
 
         public async Task<User> GetByIdAsync(Guid id, List<Expression<Func<User, object>>> including = null)

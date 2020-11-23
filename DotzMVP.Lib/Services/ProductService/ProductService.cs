@@ -32,7 +32,7 @@ namespace DotzMVP.Lib.Services.ProductService
 
         public async Task<Product> GetByIdAsync(Guid id, List<Expression<Func<Product, object>>> including = null)
         {
-            return await _productRepository.GetByIdAsync(id);
+            return await _productRepository.GetByIdAsync(id, including);
         }
 
         public async Task<Product> UpdateAsync(Product item)

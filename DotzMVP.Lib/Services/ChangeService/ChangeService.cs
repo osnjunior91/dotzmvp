@@ -60,7 +60,9 @@ namespace DotzMVP.Lib.Services.ChangeService
         {
             var user = await _userService.GetByIdAsync(item.PersonID);
             if (user == null)
-                throw new NotFoundException("Customer Not Found");
+                throw new NotFoundException("User Not Found");
+            if (user.Address == null)
+                throw new NotFoundException("Address User Not Found");
             item.Person = user;
             foreach (var changeRegister in item.Itens)
             {
