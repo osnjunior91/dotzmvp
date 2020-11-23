@@ -26,7 +26,7 @@ namespace DotzMVP.Controllers
         {
             try
             {
-                var response = _authService.AuthUserAsync(login);
+                var response = await _authService.AuthUserAsync(login);
                 return Ok(response);
             }
             catch (ValidationException ex)
