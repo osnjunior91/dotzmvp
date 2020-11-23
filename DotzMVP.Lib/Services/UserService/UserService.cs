@@ -84,5 +84,14 @@ namespace DotzMVP.Lib.Services.UserService
         {
             return await _userRepository.UpdateAsync(item);
         }
+
+        public async Task<User> UpdateScoreAsync(Guid userId, double score)
+        {
+            var userData = await GetByIdAsync(userId, null);
+            if (userData == null)
+                throw new NotFoundException("User Not Found");
+            userData.TotalScore = score;
+            return await UpdateAsync(userData);
+        }
     }
 }

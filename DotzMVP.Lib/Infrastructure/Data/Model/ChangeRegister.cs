@@ -17,7 +17,6 @@ namespace DotzMVP.Lib.Infrastructure.Data.Model
         Waiting,
         Approved,
         Rejected,
-        Closed
     }
 
 }

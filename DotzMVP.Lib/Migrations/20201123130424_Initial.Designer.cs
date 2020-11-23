@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotzMVP.Lib.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201122230524_Initial")]
+    [Migration("20201123130424_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,9 @@ namespace DotzMVP.Lib.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ChangeRegisterId")
                         .HasColumnType("uniqueidentifier");

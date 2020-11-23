@@ -25,8 +25,21 @@ namespace DotzMVP.Lib.Services.ChangeService
         public async Task<ChangeRegister> CreateAsync(ChangeRegister item)
         {
             await ValidateChangeAsync(item);
-            item.Status = StatusChange.Waiting;
-            return await _changeRepository.CreateAsync(item);
+            try
+            {
+                await _changeRepository.BeginTransactionAsync();
+                item.Status = StatusChange.Waiting;
+                item.Person.TotalScore -= item.Itens.Select(x => (x.Price * x.Amount)).ToList().Sum();
+                item.Person = await _userService.UpdateScoreAsync(item.Person.Id, item.Person.TotalScore);
+                item = await _changeRepository.CreateAsync(item);
+                await _changeRepository.CommitTransactionAsync();
+                return item;
+            }
+            catch (Exception)
+            {
+                await _changeRepository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task<List<ChangeRegister>> GetByFilterAsync(Expression<Func<ChangeRegister, bool>> filter, List<Expression<Func<ChangeRegister, object>>> including = null)
@@ -51,10 +64,11 @@ namespace DotzMVP.Lib.Services.ChangeService
             item.Person = user;
             foreach (var changeRegister in item.Itens)
             {
-                var changeItem = await _productService.GetByIdAsync(changeRegister.Id);
+                var changeItem = await _productService.GetByIdAsync(changeRegister.ProductID);
                 if (changeItem == null)
                     throw new NotFoundException("Intem Change Not Found");
                 changeRegister.Product = changeItem;
+                changeRegister.Price = changeItem.Price;
             }
             var amount = item.Itens.Select(x => (x.Price * x.Amount)).ToList().Sum();
             if(amount > user.TotalScore)

@@ -106,6 +106,9 @@ namespace DotzMVP.Lib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<Guid?>("ChangeRegisterId")
                         .HasColumnType("uniqueidentifier");
 

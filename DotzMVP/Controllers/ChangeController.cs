@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
+using DotzMVP.Lib.Services.ChangeService;
 using DotzMVP.Model.Change;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +17,31 @@ namespace DotzMVP.Controllers
     public class ChangeController : ControllerBase
     {
         private readonly IMapper _mapper;
-        public ChangeController(IMapper mapper)
+        private readonly IChangeService _changeService;
+        public ChangeController(IMapper mapper, IChangeService changeService)
         {
             _mapper = mapper;
+            _changeService = changeService;
         }
         [Route("create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ChangeCreateRequest changeRequest)
         {
-            var change = _mapper.Map<ChangeRegister>(changeRequest);
-            return Ok();
+            try
+            {
+                var change = _mapper.Map<ChangeRegister>(changeRequest);
+                var changeResult = await _changeService.CreateAsync(change);
+                return Ok(changeResult);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }
