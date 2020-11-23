@@ -22,6 +22,7 @@ namespace DotzMVP.Lib.Services.ChangeService
             _userService = userService;
             _productService = productService;
         }
+
         public async Task<ChangeRegister> CreateAsync(ChangeRegister item)
         {
             await ValidateChangeAsync(item);
@@ -56,6 +57,16 @@ namespace DotzMVP.Lib.Services.ChangeService
         {
             return await _changeRepository.UpdateAsync(item);
         }
+
+        public async Task<ChangeRegister> UpdateStatusAsync(Guid changeId, StatusChange status)
+        {
+            var change = await GetByIdAsync(changeId);
+            if (change == null)
+                throw new NotFoundException("Change Register Not Found");
+            change.Status = status;
+            return await UpdateAsync(change);
+        }
+
         private async Task ValidateChangeAsync(ChangeRegister item)
         {
             var user = await _userService.GetByIdAsync(item.PersonID);
