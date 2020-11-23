@@ -2,6 +2,7 @@
 using DotzMVP.Lib.Services.CustomerService;
 using DotzMVP.Lib.Services.ProductService;
 using DotzMVP.Lib.Services.ScoreService;
+using DotzMVP.Lib.Services.UserAdminService;
 using DotzMVP.Lib.Services.UserService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,7 @@ namespace DotzMVP.Lib.InversionOfControl
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IScoreService, ScoreService>();
             services.AddScoped<IChangeService, ChangeService>();
+            services.AddScoped<IUserAdminService, UserAdminService>();
         }
     }
 }

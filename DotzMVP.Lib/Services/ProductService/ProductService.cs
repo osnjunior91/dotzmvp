@@ -23,8 +23,6 @@ namespace DotzMVP.Lib.Services.ProductService
         }
         public async Task<Product> CreateAsync(Product item)
         {
-            var validator = new ProductValidator();
-            validator.ValidateAndThrow(item);
             await ValidateProductAsync(item);
             return await _productRepository.CreateAsync(item);
         }
@@ -59,6 +57,8 @@ namespace DotzMVP.Lib.Services.ProductService
             var customer = await _customerService.GetByIdAsync(item.CustomerID);
             if (customer == null)
                 throw new NotFoundException("Customer Not Found");
+            var validator = new ProductValidator();
+            validator.ValidateAndThrow(item);
         }
     }
 }

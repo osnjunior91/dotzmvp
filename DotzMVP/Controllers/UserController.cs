@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
+using DotzMVP.Lib.Services.ChangeService;
 using DotzMVP.Lib.Services.UserService;
+using DotzMVP.Model.Change;
 using DotzMVP.Model.User;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -18,11 +21,13 @@ namespace DotzMVP.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IChangeService _changeService;
         private readonly IMapper _mapper;
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper, IChangeService changeService)
         {
             _userService = userService;
             _mapper = mapper;
+            _changeService = changeService;
         }
         [Route("create")]
         [HttpPost]
@@ -101,6 +106,17 @@ namespace DotzMVP.Controllers
             }
 
         }
-
+        [Route("{id}/list/changes")]
+        [HttpGet]
+        public async Task<IActionResult> Changes(Guid id)
+        {
+            List<Expression<Func<ChangeRegister, object>>> includes = new List<Expression<Func<ChangeRegister, object>>>()
+            {
+                x => x.Itens            
+            };
+            Expression<Func<ChangeRegister, bool>> filter = x => x.IsDeleted == false && x.PersonID.Equals(id);
+            var result = _mapper.Map<List<UserChangeListResponse>>(await _changeService.GetByFilterAsync(filter, includes));
+            return Ok(result);
+        }
     }
 }

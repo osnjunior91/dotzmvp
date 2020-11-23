@@ -23,6 +23,10 @@ namespace DotzMVP.Lib.Services.UserService
         }
         public async Task<User> CreateAsync(User user)
         {
+            Expression<Func<User, bool>> filter = x => x.IsDeleted == false && x.Email.Equals(user.Email, StringComparison.InvariantCultureIgnoreCase);
+            var userResponse = await GetByFilterAsync(filter);
+            if (user != null)
+                throw new ArgumentException("Email existis in database.");
             var validator = new PersonValidator();
             validator.ValidateAndThrow(user);
             return await _userRepository.CreateAsync(user);

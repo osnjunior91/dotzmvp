@@ -6,6 +6,7 @@ using DotzMVP.Model.Product;
 using DotzMVP.Model.User;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DotzMVP.Infrastructure.Mapping
 {
@@ -41,6 +42,9 @@ namespace DotzMVP.Infrastructure.Mapping
                 .ForMember(dest => dest.PersonID, m => m.MapFrom(x => x.UserID))
                 .ForMember(dest => dest.Itens, m => m.MapFrom(x => x.Itens));
             CreateMap<ChangeCreateRequestItem, ChangeRegisterItem>();
+            CreateMap<ChangeRegister, UserChangeListResponse>()
+                .ForMember(dest => dest.Amount, m => m.MapFrom(x => x.Itens.Select(x => (x.Price * x.Amount)).ToList().Sum()))
+                .ForMember(dest => dest.CreatedDate, m => m.MapFrom(x => x.CreatedAt));
             #endregion
         }
     }
