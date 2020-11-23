@@ -5,6 +5,6 @@ namespace DotzMVP.Lib.Services.AuthService
 {
     public interface IAuthService
     {
-        string AuthUserAsync(Login login);
+        Task<string> AuthUserAsync(Login login);
     }
 }

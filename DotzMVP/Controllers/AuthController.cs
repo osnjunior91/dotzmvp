@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DotzMVP.Lib.Infrastructure.Data.Model;
@@ -23,8 +24,20 @@ namespace DotzMVP.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
-            var response = _authService.AuthUserAsync(login);
-            return Ok(response);
+            try
+            {
+                var response = _authService.AuthUserAsync(login);
+                return Ok(response);
+            }
+            catch (ValidationException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
