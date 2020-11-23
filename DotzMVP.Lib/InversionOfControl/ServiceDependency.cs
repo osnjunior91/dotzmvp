@@ -1,4 +1,5 @@
-﻿using DotzMVP.Lib.Services.ChangeService;
+﻿using DotzMVP.Lib.Services.AuthService;
+using DotzMVP.Lib.Services.ChangeService;
 using DotzMVP.Lib.Services.CustomerService;
 using DotzMVP.Lib.Services.ProductService;
 using DotzMVP.Lib.Services.ScoreService;
@@ -18,6 +19,7 @@ namespace DotzMVP.Lib.InversionOfControl
             services.AddScoped<IScoreService, ScoreService>();
             services.AddScoped<IChangeService, ChangeService>();
             services.AddScoped<IUserAdminService, UserAdminService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }
