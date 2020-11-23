@@ -1,5 +1,7 @@
-﻿using DotzMVP.Lib.Infrastructure.Data.Model;
+﻿using DotzMVP.Lib.Exceptions;
+using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.Services.CustomerService;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -11,12 +13,15 @@ namespace DotzMVP.Lib.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
-        public ProductService(IRepository<Product> productRepository)
+        private readonly ICustomerService _customerService;
+        public ProductService(IRepository<Product> productRepository, ICustomerService customerService)
         {
             _productRepository = productRepository;
+            _customerService = customerService;
         }
         public async Task<Product> CreateAsync(Product item)
         {
+            await ValidateProductAsync(item);
             return await _productRepository.CreateAsync(item);
         }
 
@@ -32,7 +37,15 @@ namespace DotzMVP.Lib.Services.ProductService
 
         public async Task<Product> UpdateAsync(Product item)
         {
+            await ValidateProductAsync(item);
             return await _productRepository.UpdateAsync(item);
+        }
+
+        private async Task ValidateProductAsync(Product item)
+        {
+            var customer = await _customerService.GetByIdAsync(item.CustomerID);
+            if (customer == null)
+                throw new NotFoundException("Customer Not Found");
         }
     }
 }
