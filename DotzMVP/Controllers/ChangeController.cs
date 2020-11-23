@@ -7,6 +7,7 @@ using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.ChangeService;
 using DotzMVP.Model.Change;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,10 @@ namespace DotzMVP.Controllers
                 var change = _mapper.Map<ChangeRegister>(changeRequest);
                 var changeResult = _mapper.Map<ChangeCreateResponse>(await _changeService.CreateAsync(change));
                 return Ok(changeResult);
+            }
+            catch (ValidationException ex)
+            {
+                return StatusCode(422, ex.Message);
             }
             catch (ArgumentException ex)
             {

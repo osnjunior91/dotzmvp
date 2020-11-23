@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.CustomerService;
 using DotzMVP.Model.Customer;
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotzMVP.Controllers
@@ -33,6 +31,10 @@ namespace DotzMVP.Controllers
                 var customer = _mapper.Map<Customer>(customerRequest);
                 var response = _mapper.Map<CustomerCreateResponse>(await _customerService.CreateAsync(customer));
                 return Ok(response);
+            }
+            catch(ValidationException ex)
+            {
+                return StatusCode(422, ex.Message);
             }
             catch (ArgumentException ex)
             {

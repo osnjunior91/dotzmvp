@@ -7,6 +7,7 @@ using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.UserService;
 using DotzMVP.Model.User;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,10 @@ namespace DotzMVP.Controllers
                 var user = _mapper.Map<User>(userRequest);
                 var response = _mapper.Map<UserCreateResponse>(await _userService.CreateAsync(user));
                 return Ok(response);
+            }
+            catch (ValidationException ex)
+            {
+                return StatusCode(422, ex.Message);
             }
             catch (ArgumentException ex)
             {

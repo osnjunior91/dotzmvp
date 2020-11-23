@@ -1,7 +1,9 @@
 ﻿using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.Infrastructure.Validator;
 using DotzMVP.Lib.Services.ScoreService;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -21,6 +23,8 @@ namespace DotzMVP.Lib.Services.UserService
         }
         public async Task<User> CreateAsync(User user)
         {
+            var validator = new PersonValidator();
+            validator.ValidateAndThrow(user);
             return await _userRepository.CreateAsync(user);
         }
 

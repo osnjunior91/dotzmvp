@@ -1,7 +1,9 @@
 ﻿using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.Infrastructure.Validator;
 using DotzMVP.Lib.Services.CustomerService;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -21,6 +23,8 @@ namespace DotzMVP.Lib.Services.ProductService
         }
         public async Task<Product> CreateAsync(Product item)
         {
+            var validator = new ProductValidator();
+            validator.ValidateAndThrow(item);
             await ValidateProductAsync(item);
             return await _productRepository.CreateAsync(item);
         }

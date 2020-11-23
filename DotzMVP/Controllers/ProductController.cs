@@ -7,6 +7,7 @@ using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.ProductService;
 using DotzMVP.Model.Product;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotzMVP.Controllers
@@ -32,6 +33,10 @@ namespace DotzMVP.Controllers
                 var product = _mapper.Map<Product>(productRequest);
                 var response = _mapper.Map<ProductResponse>(await _productService.CreateAsync(product));
                 return Ok(response);
+            }
+            catch (ValidationException ex)
+            {
+                return StatusCode(422, ex.Message);
             }
             catch (ArgumentException ex)
             {

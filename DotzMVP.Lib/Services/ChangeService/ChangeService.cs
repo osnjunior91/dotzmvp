@@ -1,8 +1,10 @@
 ﻿using DotzMVP.Lib.Exceptions;
 using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Infrastructure.Data.Repository;
+using DotzMVP.Lib.Infrastructure.Validator;
 using DotzMVP.Lib.Services.ProductService;
 using DotzMVP.Lib.Services.UserService;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,8 @@ namespace DotzMVP.Lib.Services.ChangeService
 
         public async Task<ChangeRegister> CreateAsync(ChangeRegister item)
         {
+            var validator = new ChangeRegisterValidator();
+            validator.ValidateAndThrow(item);
             await ValidateChangeAsync(item);
             try
             {
