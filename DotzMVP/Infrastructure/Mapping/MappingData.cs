@@ -15,10 +15,12 @@ namespace DotzMVP.Infrastructure.Mapping
         {
             #region User
             CreateMap<UserCreateRequest, User>();
+            CreateMap<User, UserCreateResponse>();
             #endregion
 
             #region Customer
             CreateMap<CustomerCreateRequest, Customer>();
+            CreateMap<Customer, CustomerCreateResponse>();
             #endregion
 
             #region Address
@@ -27,16 +29,17 @@ namespace DotzMVP.Infrastructure.Mapping
 
             #region Product
             CreateMap<CreateProductRequest, Product>();
+            CreateMap<Product, ProductResponse>();
             #endregion
 
             #region Score
             CreateMap<UserRegisterScoreRequest, Score>();
+            CreateMap<Score, UserRegisterScoreResponse>();
             #endregion
             #region Change
             CreateMap<ChangeCreateRequest, ChangeRegister>()
                 .ForMember(dest => dest.PersonID, m => m.MapFrom(x => x.UserID))
                 .ForMember(dest => dest.Itens, m => m.MapFrom(x => x.Itens));
-
             CreateMap<ChangeCreateRequestItem, ChangeRegisterItem>();
             #endregion
         }

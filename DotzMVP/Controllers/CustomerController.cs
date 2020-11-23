@@ -31,7 +31,7 @@ namespace DotzMVP.Controllers
             try
             {
                 var customer = _mapper.Map<Customer>(customerRequest);
-                var response = await _customerService.CreateAsync(customer);
+                var response = _mapper.Map<CustomerCreateResponse>(await _customerService.CreateAsync(customer));
                 return Ok(response);
             }
             catch (ArgumentException ex)

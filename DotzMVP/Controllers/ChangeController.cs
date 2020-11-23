@@ -30,7 +30,7 @@ namespace DotzMVP.Controllers
             try
             {
                 var change = _mapper.Map<ChangeRegister>(changeRequest);
-                var changeResult = await _changeService.CreateAsync(change);
+                var changeResult = _mapper.Map<ChangeCreateResponse>(await _changeService.CreateAsync(change));
                 return Ok(changeResult);
             }
             catch (ArgumentException ex)

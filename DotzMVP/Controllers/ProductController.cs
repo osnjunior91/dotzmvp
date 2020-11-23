@@ -30,7 +30,7 @@ namespace DotzMVP.Controllers
             try
             {
                 var product = _mapper.Map<Product>(productRequest);
-                var response = await _productService.CreateAsync(product);
+                var response = _mapper.Map<ProductResponse>(await _productService.CreateAsync(product));
                 return Ok(response);
             }
             catch (ArgumentException ex)
@@ -55,7 +55,18 @@ namespace DotzMVP.Controllers
                 x => x.Customer
             };
             Expression<Func<Product, bool>> filter = x => x.IsDeleted == false;
-            var response = await _productService.GetByFilterAsync(filter, includes);
+            var response = _mapper.Map<List<ProductResponse>>(await _productService.GetByFilterAsync(filter, includes));
+            return Ok(response);
+        }
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Accessible(Guid id)
+        {
+            List<Expression<Func<Product, object>>> includes = new List<Expression<Func<Product, object>>>()
+            {
+                x => x.Customer
+            };
+            var response = _mapper.Map<ProductResponse>(await _productService.GetByIdAsync(id, includes));
             return Ok(response);
         }
     }

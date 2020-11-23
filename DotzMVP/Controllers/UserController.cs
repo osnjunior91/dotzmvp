@@ -30,7 +30,7 @@ namespace DotzMVP.Controllers
             try
             {
                 var user = _mapper.Map<User>(userRequest);
-                var response = await _userService.CreateAsync(user);
+                var response = _mapper.Map<UserCreateResponse>(await _userService.CreateAsync(user));
                 return Ok(response);
             }
             catch (ArgumentException ex)
@@ -55,7 +55,7 @@ namespace DotzMVP.Controllers
                     Id = id,
                     Address = address
                 });
-                return Ok(response);
+                return Ok();
             }
             catch (ArgumentException ex)
             {
