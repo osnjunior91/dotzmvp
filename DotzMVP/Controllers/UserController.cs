@@ -11,6 +11,7 @@ using DotzMVP.Lib.Services.UserService;
 using DotzMVP.Model.Change;
 using DotzMVP.Model.User;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace DotzMVP.Controllers
 {
     [Route("api/v1/user")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IChangeService _changeService;
@@ -53,16 +54,16 @@ namespace DotzMVP.Controllers
             }
         }
 
-        [Route("{id}/address")]
+        [Route("address")]
         [HttpPost]
-        public async Task<IActionResult> RegisterAddress(Guid id, [FromBody] AddressUserRequest addressRequest)
+        public async Task<IActionResult> RegisterAddress([FromBody] AddressUserRequest addressRequest)
         {
             try
             {
                 var address = _mapper.Map<Address>(addressRequest);
                 var response = await _userService.UpdateAddressAsync(new User()
                 {
-                    Id = id,
+                    Id = CurrentUser,
                     Address = address
                 });
                 return Ok();
@@ -83,6 +84,7 @@ namespace DotzMVP.Controllers
 
         [Route("{id}/score/register")]
         [HttpPost]
+        [Authorize(Roles = "UserAdmin")]
         public async Task<IActionResult> RegisterScore(Guid id, [FromBody] UserRegisterScoreRequest registerScore)
         {
             try
@@ -106,15 +108,16 @@ namespace DotzMVP.Controllers
             }
 
         }
-        [Route("{id}/list/changes")]
+        [Route("list/changes")]
         [HttpGet]
-        public async Task<IActionResult> Changes(Guid id)
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Changes()
         {
             List<Expression<Func<ChangeRegister, object>>> includes = new List<Expression<Func<ChangeRegister, object>>>()
             {
                 x => x.Itens            
             };
-            Expression<Func<ChangeRegister, bool>> filter = x => x.IsDeleted == false && x.PersonID.Equals(id);
+            Expression<Func<ChangeRegister, bool>> filter = x => x.IsDeleted == false && x.PersonID.Equals(CurrentUser);
             var result = _mapper.Map<List<UserChangeListResponse>>(await _changeService.GetByFilterAsync(filter, includes));
             return Ok(result);
         }

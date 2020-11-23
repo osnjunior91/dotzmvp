@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -33,7 +34,38 @@ namespace DotzMVP
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddServiceDependency();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(swagger => {
+
+                swagger.CustomSchemaIds(x => x.FullName);
+
+                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+
+                    Description = "Insira seu token de autenticação para api.</br> Digite 'Bearer' [espaço] e o seu token.</br>Exemplo: 'Bearer 12345abcdef'",
+                    Name = "authorization",
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+
+                });
+
+                swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
+            });
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

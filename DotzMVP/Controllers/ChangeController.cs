@@ -8,6 +8,7 @@ using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.ChangeService;
 using DotzMVP.Model.Change;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,7 @@ namespace DotzMVP.Controllers
         }
         [Route("create")]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] ChangeCreateRequest changeRequest)
         {
             try

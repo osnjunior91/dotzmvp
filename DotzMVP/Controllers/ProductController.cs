@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotzMVP.Lib.Exceptions;
@@ -8,13 +9,15 @@ using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.ProductService;
 using DotzMVP.Model.Product;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotzMVP.Controllers
 {
     [Route("api/v1/product")]
     [ApiController]
-    public class ProductController : ControllerBase
+    [Authorize]
+    public class ProductController : BaseController
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
@@ -26,6 +29,7 @@ namespace DotzMVP.Controllers
         }
         [Route("create")]
         [HttpPost]
+        [Authorize(Roles = "UserAdmin")]
         public async Task<IActionResult> Create([FromBody] CreateProductRequest productRequest)
         {
             try

@@ -6,12 +6,14 @@ using DotzMVP.Lib.Infrastructure.Data.Model;
 using DotzMVP.Lib.Services.CustomerService;
 using DotzMVP.Model.Customer;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotzMVP.Controllers
 {
     [Route("api/v1/customer")]
     [ApiController]
+    [Authorize(Roles = "UserAdmin")]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
