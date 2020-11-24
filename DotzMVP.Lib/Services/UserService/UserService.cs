@@ -47,11 +47,11 @@ namespace DotzMVP.Lib.Services.UserService
             try
             {
                 await _userRepository.BeginTransactionAsync();
-                var userData = await GetByIdAsync(score.PersonID, null);
+                var userData = await GetByIdAsync(score.PersonID);
                 if (userData == null)
                     throw new NotFoundException("User Not Found");
                 userData.TotalScore += score.Amount;
-                var user = await _userRepository.UpdateAsync(userData);
+                var user = await UpdateAsync(userData);
                 score = await _scoreService.CreateAsync(score);
                 await _userRepository.CommitTransactionAsync();
                 return score;
