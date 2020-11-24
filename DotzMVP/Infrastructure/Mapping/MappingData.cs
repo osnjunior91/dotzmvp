@@ -47,6 +47,7 @@ namespace DotzMVP.Infrastructure.Mapping
             #region Change
             CreateMap<ChangeCreateRequest, ChangeRegister>()
                 .ForMember(dest => dest.Itens, m => m.MapFrom(x => x.Itens));
+            CreateMap<ChangeRegister, ChangeCreateResponse>();
             CreateMap<ChangeCreateRequestItem, ChangeRegisterItem>();
             CreateMap<ChangeRegister, UserChangeListResponse>()
                 .ForMember(dest => dest.Amount, m => m.MapFrom(x => x.Itens.Select(x => (x.Price * x.Amount)).ToList().Sum()))

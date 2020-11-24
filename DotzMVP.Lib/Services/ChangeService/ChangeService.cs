@@ -73,7 +73,11 @@ namespace DotzMVP.Lib.Services.ChangeService
 
         private async Task ValidateChangeAsync(ChangeRegister item)
         {
-            var user = await _userService.GetByIdAsync(item.PersonID);
+            List<Expression<Func<User, object>>> includes = new List<Expression<Func<User, object>>>()
+            {
+                x => x.Address
+            };
+            var user = await _userService.GetByIdAsync(item.PersonID, includes);
             if (user == null)
                 throw new NotFoundException("User Not Found");
             if (user.Address == null)
