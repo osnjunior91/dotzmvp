@@ -95,7 +95,7 @@ namespace DotzMVP.Lib.Services.UserService
 
         public async Task<User> UpdateScoreAsync(Guid userId, double score)
         {
-            var userData = await GetByIdAsync(userId, null);
+            var userData = await GetByIdAsync(userId);
             if (userData == null)
                 throw new NotFoundException("User Not Found");
             userData.TotalScore = score;

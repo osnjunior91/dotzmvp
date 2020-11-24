@@ -16,32 +16,6 @@ namespace DotzMVP.Test.DotzMVP.Lib.Test.Services.Test
     public class AuthServiceTest
     {
         [Fact]
-        public void EmailValidate()
-        {
-            var authService = new AuthService();
-            var login = new Login()
-            {
-                Email = "testemail",
-                Password = "123456"
-            };
-
-            Assert.ThrowsAsync<ValidationException>(async () => await authService.AuthUserAsync(login));
-        }
-
-        [Fact]
-        public void PasswordValidate()
-        {
-            var authService = new AuthService();
-            var login = new Login()
-            {
-                Email = "email@email.com.br",
-                Password = "123"
-            };
-
-            Assert.ThrowsAsync<ValidationException>(async () => await authService.AuthUserAsync(login));
-        }
-
-        [Fact]
         public async Task LoginTesteAsync()
         {
 
