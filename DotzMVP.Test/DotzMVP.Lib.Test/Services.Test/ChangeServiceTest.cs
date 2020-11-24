@@ -47,5 +47,18 @@ namespace DotzMVP.Test.DotzMVP.Lib.Test.Services.Test
             Assert.Equal(StatusChange.Waiting, itemRegister.Status);
         }
 
+        [Fact]
+        public async Task UpdateStatusAsync()
+        {
+            var itemRegister = ChangeRegisterFactory.Single();
+            _repository.Setup(m => m.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<List<Expression<Func<ChangeRegister, object>>>>())).ReturnsAsync(itemRegister);
+            _repository.Setup(m => m.UpdateAsync(It.IsAny<ChangeRegister>())).ReturnsAsync(itemRegister);
+            ChangeService changeService = new ChangeService(_repository.Object, _userService.Object, _productService.Object);
+
+            var result = await changeService.UpdateStatusAsync(itemRegister.Id, StatusChange.Approved);
+
+            Assert.Equal(StatusChange.Approved, result.Status);
+        }
+
     }
 }
