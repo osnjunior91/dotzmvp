@@ -67,7 +67,7 @@ namespace DotzMVP.Controllers
         /// <param name="addressRequest">Dados do endereço e id do usuario</param>
         /// <returns>Endereço cadastrado</returns>
         [Route("address")]
-        [HttpPost]
+        [HttpPut]
         [ProducesResponseType(typeof(User), 200)]
         [ProducesResponseType(typeof(string), 422)]
         [ProducesResponseType(typeof(string), 404)]
@@ -116,7 +116,7 @@ namespace DotzMVP.Controllers
             {
                 var score = _mapper.Map<Score>(registerScore);
                 score.PersonID = id;
-                var scoreResponse = await _userService.RegisterScoreUserAsync(score);
+                var scoreResponse = _mapper.Map<UserRegisterScoreResponse>(await _userService.RegisterScoreUserAsync(score));
                 return Ok(scoreResponse);
             }
             catch (ArgumentException ex)
