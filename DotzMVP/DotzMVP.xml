@@ -55,6 +55,13 @@
             <param name="id">Id do produto</param>
             <returns>Produto</returns>
         </member>
+        <member name="M:DotzMVP.Controllers.ProductController.Delete(System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:DotzMVP.Controllers.UserAdminController.Create(DotzMVP.Model.User.UserCreateRequest)">
             <summary>
             Criação de usuario administrador

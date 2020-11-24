@@ -36,6 +36,18 @@ namespace DotzMVP.Lib.Infrastructure.Data.Repository
             return item;
         }
 
+        public async Task<List<T>> GetAllAsync(List<Expression<Func<T, object>>> including = null)
+        {
+            var query = dataset.AsQueryable();
+            if (including != null)
+                including.ForEach(include =>
+                {
+                    if (include != null)
+                        query = query.Include(include);
+                });
+            return await query.ToListAsync();
+        }
+
         public async Task<List<T>> GetByFilterAsync(Expression<Func<T, bool>> filter, List<Expression<Func<T, object>>> including = null)
         {
             var query = dataset.AsQueryable();

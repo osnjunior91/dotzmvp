@@ -20,6 +20,12 @@ namespace DotzMVP.Lib.Infrastructure.Data.Context
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().HasQueryFilter(x => x.IsDeleted == false);
+            base.OnModelCreating(modelBuilder);
+        }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             DateTime saveTime = DateTime.Now;

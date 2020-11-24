@@ -80,8 +80,7 @@ namespace DotzMVP.Controllers
             {
                 x => x.Customer
             };
-            Expression<Func<Product, bool>> filter = x => x.IsDeleted == false;
-            var response = _mapper.Map<List<ProductResponse>>(await _productService.GetByFilterAsync(filter, includes));
+            var response = _mapper.Map<List<ProductResponse>>(await _productService.GetAllAsync(includes));
             return Ok(response);
         }
         /// <summary>
@@ -102,6 +101,39 @@ namespace DotzMVP.Controllers
             };
             var response = _mapper.Map<ProductResponse>(await _productService.GetByIdAsync(id, includes));
             return Ok(response);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("{id}")]
+        [HttpDelete]
+        [Authorize(Roles = "UserAdmin")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 500)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _productService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(422, ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
