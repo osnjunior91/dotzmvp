@@ -68,6 +68,7 @@ namespace DotzMVP.Controllers
         /// <returns>Endereço cadastrado</returns>
         [Route("address")]
         [HttpPut]
+        [Authorize]
         [ProducesResponseType(typeof(User), 200)]
         [ProducesResponseType(typeof(string), 422)]
         [ProducesResponseType(typeof(string), 404)]
@@ -133,20 +134,39 @@ namespace DotzMVP.Controllers
             }
 
         }
+        
+        /// Listar extrato de pontos
+        /// </summary>
+        /// <returns>Extrato de pontos</returns>
+        [Route("list/score")]
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(typeof(List<UserChangeListResponse>), 200)]
+        [ProducesResponseType(typeof(string), 500)]
+        public async Task<IActionResult> Scores()
+        {
+            List<Expression<Func<User, object>>> includes = new List<Expression<Func<User, object>>>()
+            {
+                x => x.Scores            
+            };
+            var result = _mapper.Map<UserListScoreResponse>(await _userService.GetByIdAsync(CurrentUser,includes));
+            return Ok(result);
+        }
         /// <summary>
         /// Listar as trocas feitas pelo cliente
         /// </summary>
         /// <returns>Lista de trocas</returns>
+        /// <summary>
         [Route("list/changes")]
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize]
         [ProducesResponseType(typeof(List<UserChangeListResponse>), 200)]
         [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Changes()
         {
             List<Expression<Func<ChangeRegister, object>>> includes = new List<Expression<Func<ChangeRegister, object>>>()
             {
-                x => x.Itens            
+                x => x.Itens
             };
             Expression<Func<ChangeRegister, bool>> filter = x => x.IsDeleted == false && x.PersonID.Equals(CurrentUser);
             var result = _mapper.Map<List<UserChangeListResponse>>(await _changeService.GetByFilterAsync(filter, includes));

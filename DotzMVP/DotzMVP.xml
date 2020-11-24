@@ -91,11 +91,7 @@
             <param name="registerScore">Registro dos pontos</param>
             <returns></returns>
         </member>
-        <member name="M:DotzMVP.Controllers.UserController.Changes">
-            <summary>
-            Listar as trocas feitas pelo cliente
-            </summary>
-            <returns>Lista de trocas</returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:DotzMVP.Controllers.UserController.Scores" -->
+        <!-- Badly formed XML comment ignored for member "M:DotzMVP.Controllers.UserController.Changes" -->
     </members>
 </doc>

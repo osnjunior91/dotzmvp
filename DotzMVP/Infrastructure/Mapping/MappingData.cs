@@ -17,6 +17,7 @@ namespace DotzMVP.Infrastructure.Mapping
             #region User
             CreateMap<UserCreateRequest, User>();
             CreateMap<User, UserCreateResponse>();
+            CreateMap<User, UserListScoreResponse>();
             #endregion
 
             #region UserAdmin
@@ -42,6 +43,7 @@ namespace DotzMVP.Infrastructure.Mapping
             CreateMap<UserRegisterScoreRequest, Score>();
             CreateMap<Score, UserRegisterScoreResponse>();
             #endregion
+
             #region Change
             CreateMap<ChangeCreateRequest, ChangeRegister>()
                 .ForMember(dest => dest.Itens, m => m.MapFrom(x => x.Itens));
