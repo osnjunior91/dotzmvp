@@ -19,6 +19,11 @@ namespace DotzMVP.Lib.Services.AuthService
     {
         private readonly IConfiguration Configuration;
         private readonly IRepository<Person> _personRepository;
+
+        public AuthService()
+        {
+        }
+
         public AuthService(IConfiguration configuration, IRepository<Person> personRepository)
         {
             Configuration = configuration;
