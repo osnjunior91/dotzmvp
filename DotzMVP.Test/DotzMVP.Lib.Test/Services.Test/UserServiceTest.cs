@@ -30,5 +30,23 @@ namespace DotzMVP.Test.DotzMVP.Lib.Test.Services.Test
             var result = await userService.UpdateScoreAsync(user.Id, score);
             Assert.Equal(result.TotalScore, score);
         }
+
+        [Fact]
+        public async Task UpdateAddress()
+        {
+            var user = UserFactory.Single();
+            var userDataBase = UserFactory.Single();
+            var address = AddressFactory.Single();
+            user.Address = address;
+            user.AddressID = address.Id;
+            _repository.Setup(m => m.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<List<Expression<Func<User, object>>>>())).ReturnsAsync(userDataBase);
+            _repository.Setup(m => m.UpdateAsync(It.IsAny<User>())).ReturnsAsync(user);
+            UserService userService = new UserService(_repository.Object, _scoreService.Object);
+            var result = (await userService.UpdateAddressAsync(user)).Address;
+            Assert.Equal(result.Street, address.Street);
+            Assert.Equal(result.Number, address.Number);
+            Assert.Equal(result.City, address.City);
+            Assert.Equal(result.ZipCode, address.ZipCode);
+        }
     }
 }
