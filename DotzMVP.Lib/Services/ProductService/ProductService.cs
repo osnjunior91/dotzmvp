@@ -27,13 +27,13 @@ namespace DotzMVP.Lib.Services.ProductService
             return await _productRepository.CreateAsync(item);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<Product> DeleteAsync(Guid id)
         {
             var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
                 throw new NotFoundException("Product Not Found");
             product.IsDeleted = true;
-            await UpdateAsync(product);
+            return await UpdateAsync(product);
         }
 
         public async Task<List<Product>> GetByFilterAsync(Expression<Func<Product, bool>> filter, List<Expression<Func<Product, object>>> including = null)

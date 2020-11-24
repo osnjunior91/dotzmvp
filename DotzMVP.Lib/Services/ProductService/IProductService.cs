@@ -6,6 +6,6 @@ namespace DotzMVP.Lib.Services.ProductService
 {
     public interface IProductService : IService<Product>
     {
-        Task DeleteAsync(Guid id);
+        Task<Product> DeleteAsync(Guid id);
     }
 }
