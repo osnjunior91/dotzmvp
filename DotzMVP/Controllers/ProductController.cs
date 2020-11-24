@@ -71,6 +71,7 @@ namespace DotzMVP.Controllers
         /// <returns>Lista de produtos</returns>
         [Route("list/accessible")]
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<ProductResponse>), 200)]
         [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Accessible()
@@ -90,6 +91,7 @@ namespace DotzMVP.Controllers
         /// <returns>Produto</returns>
         [Route("{id}")]
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(ProductResponse), 200)]
         [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Accessible(Guid id)

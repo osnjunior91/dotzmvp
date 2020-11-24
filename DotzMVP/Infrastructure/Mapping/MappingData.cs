@@ -44,7 +44,6 @@ namespace DotzMVP.Infrastructure.Mapping
             #endregion
             #region Change
             CreateMap<ChangeCreateRequest, ChangeRegister>()
-                .ForMember(dest => dest.PersonID, m => m.MapFrom(x => x.UserID))
                 .ForMember(dest => dest.Itens, m => m.MapFrom(x => x.Itens));
             CreateMap<ChangeCreateRequestItem, ChangeRegisterItem>();
             CreateMap<ChangeRegister, UserChangeListResponse>()
