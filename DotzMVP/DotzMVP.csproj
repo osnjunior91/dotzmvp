@@ -8,7 +8,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Projetos\dotzmvp\DotzMVP\DotzMVP.xml</DocumentationFile>
+    <DocumentationFile>DotzMVP.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>DotzMVP.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
