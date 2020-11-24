@@ -19,9 +19,16 @@ namespace DotzMVP.Controllers
         {
             _authService = authService;
         }
-
+        /// <summary>
+        /// Endpoint usado para autenticação na aplicação.
+        /// </summary>
+        /// <param name="login">Usuário e senha da aplicação</param>
+        /// <returns>JWT Token</returns>
         [Route("login")]
         [HttpPost]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
             try

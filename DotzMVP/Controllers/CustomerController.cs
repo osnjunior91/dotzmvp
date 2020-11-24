@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotzMVP.Controllers
 {
+    /// <summary>
+    /// Operações de cadastro de clientes
+    /// </summary>
     [Route("api/v1/customer")]
     [ApiController]
     [Authorize(Roles = "UserAdmin")]
@@ -24,8 +27,17 @@ namespace DotzMVP.Controllers
             _customerService = customerService;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Cadastro de um novo cliente.
+        /// </summary>
+        /// <param name="customerRequest">Dados do cliente</param>
+        /// <returns>Dados do cliente cadastrado</returns>
         [Route("create")]
         [HttpPost]
+        [ProducesResponseType(typeof(CustomerCreateResponse), 200)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Create([FromBody] CustomerCreateRequest customerRequest)
         {
             try

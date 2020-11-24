@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotzMVP.Controllers
 {
+    /// <summary>
+    /// Operações de trocas
+    /// </summary>
     [Route("api/v1/change")]
     [ApiController]
     public class ChangeController : ControllerBase
@@ -25,9 +28,18 @@ namespace DotzMVP.Controllers
             _mapper = mapper;
             _changeService = changeService;
         }
+        /// <summary>
+        /// Criar uma nova operação de troca de pontos
+        /// </summary>
+        /// <param name="changeRequest">Parametros para troca</param>
+        /// <returns>Dados da operação</returns>
         [Route("create")]
         [HttpPost]
         [Authorize]
+        [ProducesResponseType(typeof(ChangeCreateResponse), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Create([FromBody] ChangeCreateRequest changeRequest)
         {
             try

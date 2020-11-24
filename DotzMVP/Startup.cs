@@ -13,6 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -36,8 +39,18 @@ namespace DotzMVP
             services.AddServiceDependency();
             services.AddSwaggerGen(swagger => {
 
-                swagger.CustomSchemaIds(x => x.FullName);
+                swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "MvpDotz - Api",
+                    Description = "Projeto MVP de troca de pontos em programa de fidelidade.",
+                });
 
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                swagger.IncludeXmlComments(xmlPath);
+
+                swagger.CustomSchemaIds(x => x.FullName);
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
 

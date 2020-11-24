@@ -27,9 +27,18 @@ namespace DotzMVP.Controllers
             _productService = productService;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Cadastro de novos produtos
+        /// </summary>
+        /// <param name="productRequest">Dados do produto a ser cadastrado</param>
+        /// <returns>Dados do produto cadastrado</returns>
         [Route("create")]
         [HttpPost]
         [Authorize(Roles = "UserAdmin")]
+        [ProducesResponseType(typeof(ProductResponse), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Create([FromBody] CreateProductRequest productRequest)
         {
             try
@@ -55,8 +64,15 @@ namespace DotzMVP.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Lista de produtos disponiveispara troca
+        /// </summary>
+        /// <returns>Lista de produtos</returns>
         [Route("list/accessible")]
         [HttpGet]
+        [ProducesResponseType(typeof(List<ProductResponse>), 200)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Accessible()
         {
             List<Expression<Func<Product, object>>> includes = new List<Expression<Func<Product, object>>>()
@@ -67,8 +83,15 @@ namespace DotzMVP.Controllers
             var response = _mapper.Map<List<ProductResponse>>(await _productService.GetByFilterAsync(filter, includes));
             return Ok(response);
         }
+        /// <summary>
+        /// Detalhamento do produto
+        /// </summary>
+        /// <param name="id">Id do produto</param>
+        /// <returns>Produto</returns>
         [Route("{id}")]
         [HttpGet]
+        [ProducesResponseType(typeof(ProductResponse), 200)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Accessible(Guid id)
         {
             List<Expression<Func<Product, object>>> includes = new List<Expression<Func<Product, object>>>()

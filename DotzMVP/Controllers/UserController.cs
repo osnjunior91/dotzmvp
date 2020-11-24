@@ -30,8 +30,16 @@ namespace DotzMVP.Controllers
             _mapper = mapper;
             _changeService = changeService;
         }
+        /// <summary>
+        /// Cadastro de usuario comum.
+        /// </summary>
+        /// <param name="userRequest">Dados do usuario</param>
+        /// <returns>Usuario cadastrado</returns>
         [Route("create")]
         [HttpPost]
+        [ProducesResponseType(typeof(UserCreateResponse), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Create([FromBody] UserCreateRequest userRequest)
         {
             try
@@ -53,9 +61,17 @@ namespace DotzMVP.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Alterar endereço do usuario
+        /// </summary>
+        /// <param name="addressRequest">Dados do endereço e id do usuario</param>
+        /// <returns>Endereço cadastrado</returns>
         [Route("address")]
         [HttpPost]
+        [ProducesResponseType(typeof(User), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> RegisterAddress([FromBody] AddressUserRequest addressRequest)
         {
             try
@@ -81,10 +97,19 @@ namespace DotzMVP.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Registrar pontos para usuario
+        /// </summary>
+        /// <param name="id">Id do usuario</param>
+        /// <param name="registerScore">Registro dos pontos</param>
+        /// <returns></returns>
         [Route("{id}/score/register")]
         [HttpPost]
         [Authorize(Roles = "UserAdmin")]
+        [ProducesResponseType(typeof(Score), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 404)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> RegisterScore(Guid id, [FromBody] UserRegisterScoreRequest registerScore)
         {
             try
@@ -108,9 +133,15 @@ namespace DotzMVP.Controllers
             }
 
         }
+        /// <summary>
+        /// Listar as trocas feitas pelo cliente
+        /// </summary>
+        /// <returns>Lista de trocas</returns>
         [Route("list/changes")]
         [HttpGet]
         [Authorize(Roles = "User")]
+        [ProducesResponseType(typeof(List<UserChangeListResponse>), 200)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Changes()
         {
             List<Expression<Func<ChangeRegister, object>>> includes = new List<Expression<Func<ChangeRegister, object>>>()

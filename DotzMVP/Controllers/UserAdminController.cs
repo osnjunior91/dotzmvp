@@ -29,8 +29,16 @@ namespace DotzMVP.Controllers
             _changeService = changeService;
             _userService = userService;
         }
+        /// <summary>
+        /// Criação de usuario administrador
+        /// </summary>
+        /// <param name="userRequest">Dados do adinistrador</param>
+        /// <returns>Usuario cadastrado</returns>
         [Route("create")]
         [HttpPost]
+        [ProducesResponseType(typeof(UserCreateResponse), 200)]
+        [ProducesResponseType(typeof(string), 422)]
+        [ProducesResponseType(typeof(string), 500)]
         public async Task<IActionResult> Create([FromBody] UserCreateRequest userRequest)
         {
             try

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotzMVP</name>
+    </assembly>
+    <members>
+        <member name="M:DotzMVP.Controllers.AuthController.Login(DotzMVP.Lib.Infrastructure.Data.Model.Login)">
+            <summary>
+            Endpoint usado para autenticação na aplicação.
+            </summary>
+            <param name="login">Usuário e senha da aplicação</param>
+            <returns>JWT Token</returns>
+        </member>
+        <member name="T:DotzMVP.Controllers.ChangeController">
+            <summary>
+            Operações de trocas
+            </summary>
+        </member>
+        <member name="M:DotzMVP.Controllers.ChangeController.Create(DotzMVP.Model.Change.ChangeCreateRequest)">
+            <summary>
+            Criar uma nova operação de troca de pontos
+            </summary>
+            <param name="changeRequest">Parametros para troca</param>
+            <returns>Dados da operação</returns>
+        </member>
+        <member name="T:DotzMVP.Controllers.CustomerController">
+            <summary>
+            Operações de cadastro de clientes
+            </summary>
+        </member>
+        <member name="M:DotzMVP.Controllers.CustomerController.Create(DotzMVP.Model.Customer.CustomerCreateRequest)">
+            <summary>
+            Cadastro de um novo cliente.
+            </summary>
+            <param name="customerRequest">Dados do cliente</param>
+            <returns>Dados do cliente cadastrado</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.ProductController.Create(DotzMVP.Model.Product.CreateProductRequest)">
+            <summary>
+            Cadastro de novos produtos
+            </summary>
+            <param name="productRequest">Dados do produto a ser cadastrado</param>
+            <returns>Dados do produto cadastrado</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.ProductController.Accessible">
+            <summary>
+            Lista de produtos disponiveispara troca
+            </summary>
+            <returns>Lista de produtos</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.ProductController.Accessible(System.Guid)">
+            <summary>
+            Detalhamento do produto
+            </summary>
+            <param name="id">Id do produto</param>
+            <returns>Produto</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.UserAdminController.Create(DotzMVP.Model.User.UserCreateRequest)">
+            <summary>
+            Criação de usuario administrador
+            </summary>
+            <param name="userRequest">Dados do adinistrador</param>
+            <returns>Usuario cadastrado</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.UserController.Create(DotzMVP.Model.User.UserCreateRequest)">
+            <summary>
+            Cadastro de usuario comum.
+            </summary>
+            <param name="userRequest">Dados do usuario</param>
+            <returns>Usuario cadastrado</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.UserController.RegisterAddress(DotzMVP.Model.User.AddressUserRequest)">
+            <summary>
+            Alterar endereço do usuario
+            </summary>
+            <param name="addressRequest">Dados do endereço e id do usuario</param>
+            <returns>Endereço cadastrado</returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.UserController.RegisterScore(System.Guid,DotzMVP.Model.User.UserRegisterScoreRequest)">
+            <summary>
+            Registrar pontos para usuario
+            </summary>
+            <param name="id">Id do usuario</param>
+            <param name="registerScore">Registro dos pontos</param>
+            <returns></returns>
+        </member>
+        <member name="M:DotzMVP.Controllers.UserController.Changes">
+            <summary>
+            Listar as trocas feitas pelo cliente
+            </summary>
+            <returns>Lista de trocas</returns>
+        </member>
+    </members>
+</doc>
