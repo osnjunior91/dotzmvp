@@ -7,7 +7,6 @@ namespace DotzMVP.Model.Change
 {
     public class ChangeCreateRequest
     {
-        public Guid UserID { get; set; }
         public List<ChangeCreateRequestItem> Itens { get; set; }
     }
 

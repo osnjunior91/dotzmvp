@@ -19,7 +19,7 @@ namespace DotzMVP.Controllers
     /// </summary>
     [Route("api/v1/change")]
     [ApiController]
-    public class ChangeController : ControllerBase
+    public class ChangeController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly IChangeService _changeService;
@@ -45,6 +45,7 @@ namespace DotzMVP.Controllers
             try
             {
                 var change = _mapper.Map<ChangeRegister>(changeRequest);
+                change.PersonID = CurrentUser;
                 var changeResult = _mapper.Map<ChangeCreateResponse>(await _changeService.CreateAsync(change));
                 return Ok(changeResult);
             }

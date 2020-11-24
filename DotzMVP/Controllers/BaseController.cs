@@ -21,5 +21,21 @@ namespace DotzMVP.Controllers
             private set { }
         }
 
+        protected UserType CurrentUserType
+        {
+            get
+            {
+                var role = User.FindFirst(ClaimTypes.Role).Value;
+                return (UserType)Enum.Parse(typeof(UserType), role);
+            }
+            private set { }
+        }
+
+    }
+
+    public enum UserType
+    {
+        UserAdmin,
+        User
     }
 }
